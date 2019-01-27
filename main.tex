@@ -1,0 +1,185 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage{amsmath}
+%\usepackage{amsthm}
+\usepackage{acronym}
+\usepackage[a4paper, hmargin={2.8cm, 2.8cm}, vmargin={2.5cm, 2.5cm}]{geometry}
+\usepackage{eso-pic} % \AddToShipoutPicture
+\usepackage{graphicx} % \includegraphics
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{eurosym}
+\usepackage{csquotes}
+\usepackage{bookmark}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{times}
+\usepackage{lingmacros}
+\usepackage{color, colortbl}
+\usepackage{tabularx}
+\usepackage{pdfpages}
+\usepackage{footnote}
+\usepackage{microtype}
+\usepackage{cleveref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{url}
+\usepackage{tikz}
+\definecolor{mygray}{rgb}{0.86,0.86,0.86}
+\usepackage[defaultmono,scale=0.9]{droidmono}
+\usepackage{bm}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+\usepackage{amsfonts}
+\usepackage[inline]{enumitem}
+\usepackage{booktabs}
+\usepackage{todonotes}
+\usepackage{caption,subcaption}
+\captionsetup{compatibility=false}
+\usepackage{pifont}% http://ctan.org/pkg/pifont
+\newcommand{\cmark}{\ding{51}}%
+\newcommand{\xmark}{\ding{55}}%
+
+\renewcommand{\vec}[1]{\bm{\mathrm{#1}}}
+\usetikzlibrary{positioning}
+\usetikzlibrary{calc}
+
+
+\definecolor{cbred}{RGB}{215,25,28}
+\definecolor{cborange}{RGB}{253,174,97}
+\definecolor{cbyellow}{RGB}{255,255,191}
+\definecolor{cbgreen}{RGB}{171,221,164}
+\definecolor{cbblue}{RGB}{43,131,186}
+
+% For highlighting
+\makeatletter
+\newenvironment{btHighlight}[1][]
+{\begingroup\tikzset{bt@Highlight@par/.style={#1}}\begin{lrbox}{\@tempboxa}}
+{\end{lrbox}\bt@HL@box[bt@Highlight@par]{\@tempboxa}\endgroup}
+
+\newcommand\btHL[1][]{%
+  \begin{btHighlight}[#1]\bgroup\aftergroup\bt@HL@endenv%
+}
+\def\bt@HL@endenv{%
+  \end{btHighlight}%   
+  \egroup
+}
+\newcommand{\bt@HL@box}[2][]{%
+  \tikz[#1]{%
+    \pgfpathrectangle{\pgfpoint{1pt}{0pt}}{\pgfpoint{\wd #2}{\ht #2}}%
+    \pgfusepath{use as bounding box}%
+    \node[anchor=base west, fill=cborange!30,outer sep=0pt,inner xsep=1pt, inner ysep=0pt, rounded corners=3pt, minimum height=\ht\strutbox+1pt,#1]{\raisebox{1pt}{\strut}\strut\usebox{#2}};
+  }%
+}
+\makeatother
+
+\lstset{language=Python,
+  basicstyle=\small\ttfamily,
+  keywordstyle=\color{cbblue},
+  stringstyle=\color{cbred},
+  morekeywords={with},
+  moredelim=**[is][\btHL]{@}{@}
+  }
+
+\makesavenoteenv{tabular}
+\makesavenoteenv{table}
+
+\usepackage[backend=biber, style=authoryear, sorting=nty, maxcitenames=2]{biblatex}
+
+
+\addbibresource{main.bib} %Imports bibliography file
+
+\def \ColourPDF {cover/bilagscan-farve.pdf}
+
+\title{
+  \vspace{3.5cm}
+  \LARGE{Experiences with using Probabilistic Programming for Voucher Feature
+    Extraction at Skanned.com} \\
+  \Large{Project Status Report}
+}
+
+
+ 
+\author{
+  \Large{Ahmad Salim Al-Sibahi} \\
+  \texttt{ahmad@bilagscan.dk}
+}
+\date{January 2019}
+
+
+\begin{document} 
+\pagenumbering{roman}
+\AddToShipoutPicture*{\put(20,0){\includegraphics*{\ColourPDF}}}
+
+\clearpage\maketitle
+\thispagestyle{empty}
+
+\newpage
+
+\pagenumbering{arabic}
+
+\section{Introduction}
+
+\subsection{Background}
+Probabilistic Programming is an emergent field of machine learning, that
+enriches general programming frameworks with probabilistic constructs from Bayesian reasoning.
+The core idea is that one specifies probabilistic models that describe the
+anticipated distribution of target data, and then these frameworks provide an
+automated way to learn parameters of the model when new data is observed.
+
+There are three key advantages to probabilistic programming over existing
+machine learning technology: it is possible to directly incorporate \emph{domain
+knowledge} using prior distributions, the constructed models allow for a systematic way to
+\emph{quantify uncertainty}, and they are often directly
+\emph{interpretable} by humans. All of these aspects are important for voucher
+information extraction, which is the core business of Skanned.com.
+Vouchers are almost always structured documents, where key information is
+explicitly labelled and where there are many legal rules about how
+information should be presented; the use of this domain knowledge is key to
+achieving good results, which is why the existing system relies heavily on
+hand-tuned heuristics. Quantifying uncertainty of a result is an important way
+for the system to specify its trust in the results it provides and make sure
+that customers only pay what is necessary: it is important for customers that
+when the system states that the total amount is ``\$1000'', it is the right
+amount and not ``\$100'' or ``\$10000''. Skanned.com provides a
+human-based validation service, but such service is expensive and is a
+bottleneck with regards to scalability; it is therefore important to only rely
+on it is known to be necessary, which is not possible to do in a systematic way
+with the current system.
+Finally, if an error happens during information extraction, it is important that
+the system is easy to debug and explain to customers, which is hard to do for
+purely deep neural network-based architectures with millions of nuisance parameters.
+
+The goal of the current Industrial PostDoc is to examine how to apply
+probabilistic programming in practice for voucher scanning systems. This is
+important both for the company, where getting a good solution can result in
+significant savings and make the company a leading expert in machine learning,
+and for science in general, since there are not many existing practical
+applications of probabilistic programming and new experiences provide an
+opportunity for improving the existing systems.
+
+\subsection{Achievements}
+
+\subsection{Challenges}
+
+\subsection{Plans}
+
+
+\section{Probabilistic Programming}
+
+\section{Models for Voucher Processing}
+
+\section{PP in Broader Context}
+
+\section{Perspectives}
+
+\medskip
+
+\printbibliography[
+heading=bibintoc,
+title={Bibliography}
+] 
+
+\clearpage
+
+\end{document}
