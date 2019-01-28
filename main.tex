@@ -322,6 +322,31 @@ non-negligible impact on the project and caused some delays.
 \end{itemize}
 
 \section{Prospectives}
+During this project there have been many challenges that have been overcome and
+many achievements that have been made.
+For the future, there are a few things which we want to work on:
+\begin{itemize}
+\item Finish the keyword assignment-based algorithm and publish the current
+  results (including grouping) in a suitable conference (e.g. ECML PKDD). This
+  might require some time to get working optimally with inference, since the
+  model is complex and has many local optima, but can possibly be extended with
+  more directions in the future.
+  \begin{itemize}
+  \item Alternatively, work on extending the
+  keyword-based localization that provided initially good results with more
+  features to increase accuracy; this can provide a faster road to currently useful
+  results, but is less extensible in the future.
+  \end{itemize}
+\item Tackle new problem in voucher processing with probabilistic programming. A
+  potential problem is product line extraction, where the current algorithm of
+  Skanned.com lacks behind.
+\item Work with the Futhark group at University of Copenhagen to see how we can
+  compile probabilistic programming efficiently to the GPU. This includes
+  looking into hybrid techniques for inference, based on e.g. those used for
+  Augur by Oracle, and compiled sequential inference sampling. The hope is that
+  this can allow scaling the capabilities of probabilistic programming systems,
+  and e.g. allow more vouchers to be processed efficiently for Skanned.com
+\end{itemize}
 
 \medskip
 
