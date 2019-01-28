@@ -118,9 +118,7 @@
 
 \pagenumbering{arabic}
 
-\section{Introduction}
-
-\subsection{Background}
+\section{Background}
 Probabilistic Programming is an emergent field of machine learning, that
 enriches general programming frameworks with probabilistic constructs from Bayesian reasoning.
 The core idea is that one specifies probabilistic models that describe the
@@ -158,20 +156,88 @@ and for science in general, since there are not many existing practical
 applications of probabilistic programming and new experiences provide an
 opportunity for improving the existing systems.
 
-\subsection{Achievements}
+The PostDoc is mentored on the academic side by Dr. Thomas Hamelryck, who is an
+expert in Bayesian data analysis and its applications in Bioinformatics, and
+Dr. Fritz Henglein, who is an expert in programming languages and high-performance
+compilation to GPUs. On the business side, the mentor is Dan Rose Johansen, who
+is the Chief Operational Officer at BilagScan, and leads the daily operations.
 
-\subsection{Challenges}
+\section{Achievements}
+\subsection{Knowledge Building} During my PostDoc at Skanned.com I have worked
+towards understanding how to apply probabilistic programming in practice, and
+sharing such knowledge amongst colleagues and fellow academics.
+Concretely:
+\begin{itemize}
+\item I have developed an understanding for Bayesian data analysis, including
+  constructing probabilistic models, presents them and evaluating them.
+\item I have gotten familiar with the wide range of inference techniques
+  available for inference in probabilistic programs, gaining an understanding of
+  their core theory and for the problems where they are applicable.
+\item I have shared my knowledge about various probabilistic programming frameworks with
+  my colleagues, and discussed how they can potentially be applied in practice.
+\item I am a part of a weekly probabilistic programming discussion group at University of Copenhagen, where they are actively looking into
+  how to use modern probabilistic programming frameworks for protein folding.
+\end{itemize}
 
-\subsection{Plans}
+\subsection{Application} I have examined how we can
+use probabilistic programming frameworks for voucher information extraction, and
+developed various models aimed towards such goal.
+\begin{itemize}
+\item I have developed a model for grouping vouchers based on textual and visual
+  features\footnote{In collaboration with my mentors Fritz and Thomas},
+  that relies on latent Dirichlet allocation (LDA), which is a popular
+  probabilistic programming technique. The grouping is useful for developing
+  specialized algorithms for similar sets of vouchers and thus increase
+  precision in the information extraction. This model was found useful by
+  Skanned.com and is therefore planned to soon come in production.
+\item I have developed a series of probabilistic models from scratch for
+  keyword-based feature localization. The problem is challenging to encode
+  because of the varying number of keywords and features between each document,
+  but initial results were promising in showing its potential use in practice:
+  80\% of the time the target feature was the expected one, and 99\% of the time
+  it was within the 95\% confidence interval.
+\item I am currently working with a more ambitious model that tries to assigns
+  keywords to features explicitly, to make inference more precise. The model can
+  also be extended to allow locating more features in the future, as well as possibly identify potential
+  keywords.
+\item I have developed experience with various probabilistic programming
+  frameworks like PyMC3, Pyro and Infer.Net, and their underlying technologies
+  like Theano and PyTorch. This included getting experiences with neural network
+  architectures that can potentially be used in the models or for inference.
+  Furthermore, I have actively submitted bug reports, bug fixes and features to
+  these languages.
+\end{itemize}
 
+\subsection{Dissemination}
+I have tried to share my experiences using Probabilistic Programming as part of
+my Industrial PostDoc at Skanned.com, in order to generate excitement for the
+area. This is also a good branding opportunity for Skanned.com to position
+themselves as a cutting edge startup in artificial intelligence (AI).
+\begin{itemize}
+\item I have presented our work at the first international conference on
+  probabilistic programming (PROBPROG 2018), which was held at Massachusetts Institute of
+  Technology (MIT). This provided opportunity to learn about the latest
+  technology within probabilistic programming by world's top universities and
+  major IT companies (Microsoft/Facebook/Google/Uber/Amazon/Oracle etc.)
+\item I have presented our plans for probabilistic programming at a public event
+  organized by Skanned.com on Machine Learning and Artificial Intelligence
+  (called Masters of AI/ML 2018). I was rated as one of the top speakers at this
+  event by the audience, which was around 200 people.
+\item I have started a meet-up on probabilistic programming, to provide more
+  focused technical discussions on the area. The meet-up is a collaboration
+  between Skanned.com, University of Copenhagen and Hypefactors, and has already
+  after one session over 70 members, which is great for such new techology. We
+  already have scheduled multiple sessions and in talk to have exciting speakers from
+  academia and industry in the future.
+\end{itemize}
+In general, it should be mentioned that probabilistic programming as a
+technology is getting a lot of excitement. This is also felt by my mentors
+Thomas and Fritz, when they present and discuss this work with other academics
+and people from industry.
 
-\section{Probabilistic Programming}
+\section{Challenges}
 
-\section{Models for Voucher Processing}
-
-\section{PP in Broader Context}
-
-\section{Perspectives}
+\section{Prospectives}
 
 \medskip
 
