@@ -1,4 +1,5 @@
 \documentclass[12pt,a4paper]{article}
+\usepackage[hyphens]{url}
 \usepackage{amsmath}
 %\usepackage{amsthm}
 \usepackage{acronym}
@@ -23,7 +24,6 @@
 \usepackage{cleveref}
 \usepackage{listings}
 \usepackage{xcolor}
-\usepackage{url}
 \usepackage{tikz}
 \definecolor{mygray}{rgb}{0.86,0.86,0.86}
 \usepackage[defaultmono,scale=0.9]{droidmono}
@@ -226,9 +226,9 @@ themselves as a cutting edge startup in artificial intelligence (AI).
 \item I have started a meet-up on probabilistic programming, to provide more
   focused technical discussions on the area. The meet-up is a collaboration
   between Skanned.com, University of Copenhagen and Hypefactors, and has already
-  after one session over 70 members, which is great for such new techology. We
+  after one session over 75 members, which is great for such new techology. We
   already have scheduled multiple sessions and in talk to have exciting speakers from
-  academia and industry in the future.
+  academia and industry (e.g., Facebook, Nordea) in the future.
 \end{itemize}
 In general, it should be mentioned that probabilistic programming as a
 technology is getting a lot of excitement. This is also felt by my mentors
@@ -236,6 +236,90 @@ Thomas and Fritz, when they present and discuss this work with other academics
 and people from industry.
 
 \section{Challenges}
+Being a first mover in a new field of technology like probabilistic programming
+has its clear rewards, but also comes with its own set of challenges, both
+anticipated and unexpected. I will here describe some of the challenges
+encountered during the project and how I strived to solve them.
+
+\subsection{Theoretical Challenges}
+Today, there are few applications of general probabilistic programming in
+industry, and none we know of within the area of voucher processing. While the
+development of probabilistic programming framework is also done by research arms
+of industrial companies, most papers are written towards academics using
+academic language. There is still a reasonable gap between theory and practice,
+which we as part of this project hope to fill.
+\begin{itemize}
+\item Probabilistic Programming intersects many areas of theoretical and applied
+  mathematics. Knowledge is required at least in the fields of probability
+  theory, advanced calculus and programming language semantics (including
+  category theory), and sometimes even areas like statistics, information
+  theory, measure theory and real analysis.
+  Some of these areas I had to refresh my knowledge in---I had
+  not made heavy use of calculus or probability theory since high-school---and
+  some I had to learn from scratch, like basic measure theory.
+\item The promise of probabilistic programming, where the user provides a model
+  and where inference is fully automatic is perhaps not quite achieved. It seems
+  certainly easier to do Bayesian modeling now than few years back, but
+  knowledge of the particular inference methods is still necessary to construct
+  models that work well. For example, sampling methods require good geometric
+  ergodicity\footnote{Distributions should not have heavy tails or complex
+modes.}, variational methods require estimators with low variance, and
+  expectation propagation and similar algorithms require priors to be conjugate.
+\item Working with mixed discrete-continuous models is still a challenge from the
+  side of inference. Discrete models make differentiation-based methods harder
+  to use; those algorithms that rely on both differentiation and discrete
+  methods work only well for small number of discrete choices, and those that do
+  not rely on differentiation only work with fixed sets of continuous distributions.
+\item The maturity of existing probabilistic programming framework is still low.
+  Frameworks like Anglican or Venture still seem to be at the academic
+  stage, while more industry targeted frameworks like PyMC3, Pyro and Infer.Net
+  still have limitations for more complex models. During the project, I had to
+  debug\,\footnote{See ``Getting auto-enumeration working with transformed
+    distributions'' (\url{https://forum.pyro.ai/t/getting-auto-enumeration-working-with-transformed-distributions/440a}),
+``NaN occured in optimization'' (\url{https://discourse.pymc.io/t/nan-occured-in-optimization-in-a-vonmises-mixture-model/1296}),
+``[bug] --jit option fails for HMM example''
+(\url{https://github.com/uber/pyro/issues/1435}),
+``pm.sample\_prior\_predictive
+fails when model contains a mixture-based distribution''
+(\url{https://github.com/pymc-devs/pymc3/issues/3101}), and ``Updated mixture model breaks with multi-dimension mixtures''
+(\url{https://github.com/pymc-devs/pymc3/issues/3044})
+}
+and profile\,\footnote{See ``Profiling TraceEnumELBO''
+  (\url{https://forum.pyro.ai/t/invalid-index-in-gather-for-model-relying-on-auto-enumeration/479/5})} the frameworks themselves to identify bugs and limitations,
+  discuss the issues with the framework developers and contribute
+  code\,\footnote{See ``Working on component-wise transformations that mimic
+    torch.cat and torch.stack''
+    (\url{https://github.com/pytorch/pytorch/pull/11868}), ``Add documentation
+    for transform functions''
+    (\url{https://github.com/pymc-devs/pymc3/pull/3192}), ``Add site information
+    for possible exception thrown when calculating logp''
+    (\url{https://github.com/uber/pyro/pull/1509}) and ``Clarify phrasing of
+    installation instructions with regards to running examples'' (\url{https://github.com/uber/pyro/pull/1533})} to fix
+  some of these issues.
+\item The performance and scalability of current probabilistic frameworks still
+  needs improvement. We have so far not been able to train with more than around 1000
+  vouchers in reasonable time for more complex models, even though the available
+  data set is orders of magnitude larger. Even though most framework support
+  running models on the GPU, it is hard to achieve good performance improvements
+  and sometimes the overhead is larger than running on CPUs directly.
+\end{itemize}
+
+\subsection{Practical Issues}
+In the beginning of the project there were some practical issues at the
+University which have now been solved. However, these issues made it a
+non-negligible impact on the project and caused some delays.
+\begin{itemize}
+\item I was not registered as a PostDoc and given access to the University until
+  a month after I started the project. This caused some delay in the academic
+  activities, such as attending research group meetings.
+\item I had to wait around three months to get access to the budgeted research
+  computer, which made it hard to perform the necessary experiments. First, I
+  could only start to order it after I was registered (which took one month).
+  Second, I could not order it myself, since I was registered as external in the
+  university system (which itself is complex) and had to ask my mentor, Thomas,
+  to do it for me. Finally, when I got the order, they did not include a monitor
+  and I had to make a new order for a monitor which caused additional delays.
+\end{itemize}
 
 \section{Prospectives}
 
