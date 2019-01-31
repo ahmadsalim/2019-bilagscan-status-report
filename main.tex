@@ -179,7 +179,8 @@ Concretely:
   how to use modern probabilistic programming frameworks for solving problems in academia in general.
 \end{itemize}
 
-\subsection{Application} I have examined how we can
+\subsection{Current Results and Performance}
+I have examined how we can
 use probabilistic programming frameworks for voucher information extraction, and
 developed various models aimed towards such goal.
 \begin{itemize}
@@ -194,8 +195,19 @@ developed various models aimed towards such goal.
   keyword-based feature localization. The problem is challenging to encode
   because of the varying number of keywords and features between each document,
   but initial results were promising in showing its potential use in practice:
-  80\% of the time the target feature was the expected one, and 99\% of the time
-  it was within the 95\% confidence interval.
+  \begin{itemize}
+  \item 80\% of the time the target feature was the expected one, and 99\% of the time
+    it was within the 95\% confidence interval.
+  \item Due to the quantification of uncertainty, it can exclude irrelevant
+    features systematically without losing precision. The ad-hoc methods
+    sometimes excluded correct features arbitrarily, even though our technique
+    was certain that it was the only possible correct choice.
+  \item I have optimized the code so that it can take around 1500 high-quality Hamiltonian Monte Carlo
+    (HMC)\footnote{A sampling technique that relies on gradient information to
+      provide quicker convergence towards the true posterior distribution.}
+    samples in 2-3 seconds on average, which is excellent for such an
+    expressive inference technique.
+  \end{itemize}
 \item I am currently working with a more ambitious model that tries to assigns
   keywords to features explicitly, to make inference more precise. The model can
   also be extended to allow locating more features in the future, as well as possibly identify potential
@@ -206,6 +218,27 @@ developed various models aimed towards such goal.
   architectures that can potentially be used in the models or for inference.
   Furthermore, I have actively submitted bug reports, bug fixes and features to
   these languages.
+\end{itemize}
+
+\subsection{Production}
+The grouping model that we have developed during this project has already been
+rewritten by the developers at Skanned.com to be integrated in production, and
+is expected to come in production soon.
+The model has been found very valuable by the company since it allows improving their
+current system in multiple ways:
+\begin{itemize}
+\item It can be used as input to the template-based voucher information
+  extraction system, which relies on the existing sets of processed vouchers to extract
+  information from new similar vouchers. The current way that processed vouchers
+  are selected now are using the VAT registration number, but that has
+  disadvantages compared to similarity scores given by the grouping model: the
+  VAT registration number is very specifically tied to a customer and so it will
+  miss new customers that have similar vouchers (e.g. printed using the same
+  system), and it is less robust when the customer changes the layout of their vouchers.
+\item It can be used as an input to future machine learning techniques developed
+  at Skanned.com (including probabilistic programming), in order to improve
+  precision of information extraction by allowing learning of parameters that
+  are specific to groups of similar vouchers.
 \end{itemize}
 
 \subsection{Dissemination}
@@ -326,14 +359,15 @@ For the future, there are a few things which we want to work on:
   results, but is less extensible in the future.
   \end{itemize}
 \item Tackle new problem in voucher processing with probabilistic programming. A
-  potential problem is product line extraction, where the current algorithm of
-  Skanned.com lacks behind.
-\item Work with the Futhark group at University of Copenhagen to see how we can
-  compile probabilistic programming efficiently to the GPU. This includes
-  looking into hybrid techniques for inference, based on e.g. those used for
-  Augur by Oracle, and compiled sequential inference sampling. The hope is that
-  this can allow scaling the capabilities of probabilistic programming systems,
-  and e.g. allow more vouchers to be processed efficiently for Skanned.com
+  potential problem is extraction of product lines, where the current algorithm of
+  Skanned.com lacks behind. Product lines describe information about each individual item
+  that is purchased on a voucher, and they are complex to model because of the
+  variation of headings across different voucher types and variation of the number of
+  lines even between vouchers of the same type.
+\item Use practical experience gathered during the project so far
+  to collaborate with the Futhark group at University of Copenhagen to improve
+  see how to scale existing probabilistic programming techniques to run much
+  more efficiently on the GPU and allow for bigger data-sets to be handled.
 \end{itemize}
 
 \medskip
