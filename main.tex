@@ -119,7 +119,7 @@
 \pagenumbering{arabic}
 
 \section{Background}
-Probabilistic Programming is an emergent field of machine learning, that
+Probabilistic Programming is an emergent field of machine learning that
 enriches general programming frameworks with probabilistic constructs from Bayesian reasoning.
 The core idea is that one specifies probabilistic models that describe the
 anticipated distribution of target data, and then these frameworks provide an
@@ -138,15 +138,14 @@ achieving good results, which is why the existing system relies heavily on
 hand-tuned heuristics. Quantifying uncertainty of a result is an important way
 for the system to specify its trust in the results it provides and make sure
 that customers only pay what is necessary: it is important for customers that
-when the system states that the total amount is ``\$1000'', it is the right
-amount and not ``\$100'' or ``\$10000''. Skanned.com provides a
+when the system states that the total amount is ``\$1000'' then it is correct,
+and not ``\$100'' or ``\$10000'' instead. Skanned.com provides a
 human-based validation service, but such service is expensive and is a
-bottleneck with regards to scalability; it is therefore important to only rely
-on it is known to be necessary, which is not possible to do in a systematic way
-with the current system.
-Finally, if an error happens during information extraction, it is important that
+bottleneck with regards to scalability: it is therefore important to only use
+it when necessary, which is hard to determine with the current system.
+Finally, when an error happens during information extraction, it is important that
 the system is easy to debug and explain to customers, which is hard to do for
-purely deep neural network-based architectures with millions of nuisance parameters.
+deep neural network-based architectures with millions of nuisance parameters.
 
 The goal of the current Industrial PostDoc is to examine how to apply
 probabilistic programming in practice for voucher scanning systems. This is
@@ -168,30 +167,30 @@ towards understanding how to apply probabilistic programming in practice, and
 sharing such knowledge amongst colleagues and fellow academics.
 Concretely:
 \begin{itemize}
-\item I have developed an understanding for Bayesian data analysis, including
+\item I developed an understanding of Bayesian data analysis, including
   constructing probabilistic models, presenting them and evaluating them.
-\item I have gotten familiar with the wide range of inference techniques
-  available for inference in probabilistic programs, gaining an understanding of
-  their core theory and for the problems where they are applicable.
-\item I have shared my knowledge about various probabilistic programming frameworks with
-  my colleagues, and discussed how they can potentially be applied in practice.
+\item I got familiar with the wide range of inference techniques
+  available for probabilistic programs, understood
+  their core theory and the problems for which they are applicable.
+\item I shared my knowledge about various probabilistic programming frameworks with
+  my colleagues, and discussed how to apply them in practice.
 \item I am a part of a weekly probabilistic programming discussion group at University of Copenhagen, where they are actively looking into
   how to use modern probabilistic programming frameworks for solving problems in academia in general.
 \end{itemize}
 
 \subsection{Current Results and Performance}
-I have examined how we can
+I examined how we can
 use probabilistic programming frameworks for voucher information extraction, and
 developed various models aimed towards such goal.
 \begin{itemize}
-\item I have developed a model for grouping vouchers based on textual and visual
+\item I developed a model for grouping vouchers based on textual and visual
   features\footnote{In collaboration with my mentors Fritz and Thomas},
   that relies on latent Dirichlet allocation (LDA), which is a Bayesian model
-  that identifies a common set of ``topics'' that summarize a set of documents. The grouping is useful for developing
+  that identifies a common set of ``topics'' that summarize a set of documents.
+  The grouping is useful for developing
   specialized algorithms for similar sets of vouchers and thus increase
-  precision in the information extraction. This model was found useful by
-  Skanned.com and is therefore planned to soon come in production.
-\item I have developed a series of probabilistic models from scratch for
+  precision in the information extraction.
+\item I developed a series of probabilistic models from scratch for
   keyword-based feature localization. The problem is challenging to encode
   because of the varying number of keywords and features between each document,
   but initial results were promising in showing its potential use in practice:
@@ -208,11 +207,11 @@ developed various models aimed towards such goal.
     samples in 2-3 seconds on average, which is excellent for such an
     expressive inference technique.
   \end{itemize}
-\item I am currently working with a more ambitious model that tries to assigns
-  keywords to features explicitly, to make inference more precise. The model can
+\item To make inference more precise, I am currently working with a more ambitious model that tries to assigns
+  keywords to features explicitly. The model can
   also be extended to allow locating more features in the future, as well as possibly identify potential
   keywords.
-\item I have developed experience with various probabilistic programming
+\item I developed experience with various probabilistic programming
   frameworks like PyMC3, Pyro and Infer.Net, and their underlying technologies
   like Theano and PyTorch. This included getting experiences with neural network
   architectures that can potentially be used in the models or for inference.
@@ -230,9 +229,9 @@ current system in multiple ways:
 \item It can be used as input to the template-based voucher information
   extraction system, which relies on the existing sets of processed vouchers to extract
   information from new similar vouchers. The current way that processed vouchers
-  are selected now are using the VAT registration number, but that has
-  disadvantages compared to similarity scores given by the grouping model: the
-  VAT registration number is very specifically tied to a customer and so it will
+  are selected now are using the VAT registration number, but that is limited
+  compared to similarity scores given by the grouping model: the
+  VAT registration number is specifically tied to a customer, so it will
   miss new customers that have similar vouchers (e.g. printed using the same
   system), and it is less robust when the customer changes the layout of their vouchers.
 \item It can be used as an input to future machine learning techniques developed
